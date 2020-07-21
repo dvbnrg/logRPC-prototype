@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"logRPC/pb"
 	"net"
+	"os"
 	"time"
 
 	"google.golang.org/grpc"
@@ -43,15 +43,21 @@ func (s *server) CreateEvent(ctx context.Context, event *pb.Event) (*pb.EventRes
 
 // SaveToFile saves to a json file
 func saveToFile(ctx context.Context, e *pb.Event) (bool, error) {
-	f, err := json.Marshal(e)
+	m, err := json.Marshal(e)
 	if err != nil {
 		log.Fatalf("failed to marshal: %v", err)
 		return false, err
 	}
-	err = ioutil.WriteFile("logtest.json", f, 0644)
+	// If the file doesn't exist, create it, or append to the file
+	l, err := os.OpenFile("logtest.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		log.Fatalf("failed to write to file: %v", err)
-		return false, err
+		log.Fatal(err)
+	}
+	if _, err := l.Write(m); err != nil {
+		log.Fatal(err)
+	}
+	if err := l.Close(); err != nil {
+		log.Fatal(err)
 	}
 	return true, nil
 }
