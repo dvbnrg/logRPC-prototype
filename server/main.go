@@ -35,14 +35,14 @@ func main() {
 func (s *server) CreateEvent(ctx context.Context, event *pb.Event) (*pb.EventResponse, error) {
 	method := event.GetMethod()
 	timestamp := event.GetTimestamp()
-	SaveToFile(ctx, event)
+	saveToFile(ctx, event)
 	log.Printf("Event Logged: %s, at timestamp: %s", method, timestamp)
 	eventtimestamp := time.Now().String()
 	return &pb.EventResponse{EventLogged: true, Timestamp: eventtimestamp}, nil
 }
 
 // SaveToFile saves to a json file
-func SaveToFile(ctx context.Context, e *pb.Event) (bool, error) {
+func saveToFile(ctx context.Context, e *pb.Event) (bool, error) {
 	f, err := json.Marshal(e)
 	if err != nil {
 		log.Fatalf("failed to marshal: %v", err)
