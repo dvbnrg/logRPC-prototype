@@ -53,5 +53,5 @@ func SaveToFile(ctx context.Context, e *pb.Event) (bool, error) {
 		log.Fatalf("failed to write to file: %v", err)
 		return false, err
 	}
-	return true, err
+	return true, nil
 }
