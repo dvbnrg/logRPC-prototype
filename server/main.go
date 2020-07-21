@@ -49,7 +49,7 @@ func saveToFile(ctx context.Context, e *pb.Event) (bool, error) {
 		return false, err
 	}
 	// If the file doesn't exist, create it, or append to the file
-	l, err := os.OpenFile("logtest.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	l, err := os.OpenFile("logtest.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Fatal(err)
 		return false, err
