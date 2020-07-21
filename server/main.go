@@ -41,7 +41,7 @@ func (s *server) CreateEvent(ctx context.Context, event *pb.Event) (*pb.EventRes
 	return &pb.EventResponse{EventLogged: true, Timestamp: eventtimestamp}, nil
 }
 
-// SaveToFile saves to file
+// SaveToFile saves to a json file
 func SaveToFile(ctx context.Context, e *pb.Event) (bool, error) {
 	f, err := json.Marshal(e)
 	if err != nil {
