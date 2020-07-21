@@ -52,12 +52,15 @@ func saveToFile(ctx context.Context, e *pb.Event) (bool, error) {
 	l, err := os.OpenFile("logtest.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
+		return false, err
 	}
 	if _, err := l.Write(m); err != nil {
 		log.Fatal(err)
+		return false, err
 	}
 	if err := l.Close(); err != nil {
 		log.Fatal(err)
+		return false, err
 	}
 	return true, nil
 }
